@@ -1,0 +1,35 @@
+exec (acomp a) (0,s,[]) == (length (acomp a), s, [aval a s])
+
+Proof:
+--TODO Task 4
+------------------------------------------------------------------
+| Case a=0, s=empty:                                             |
+| exec (acomp 0) (0,empty,[])                                    |
+|    [applying acomp 0] = [LOADI 0]                              |
+|    [applying exec ([LOADI 0]) (0,empty,[])] = (1, empty, [0])  |
+|                                                                |
+| length (acomp 0), empty, [aval 0 empty]                        |
+|    [applying acomp 0] = [LOADI 0]                              |
+|    [applying length ([LOADI 0])] = 1                           |
+|    [applying [aval 0 empty]] = [0]                             |
+|       =(1, empty, [0])                                         |
+------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+| Case a="v1", s=fromList [("v1",5)]:                                                       |
+| exec (acomp "v1") (0,fromList [("v1",5)],[])                                              |
+|    [applying acomp "v1"] = [LOAD "v1"]                                                    |
+|    [applying exec ([LOAD "v1"]) (0,fromList [("v1",5)],[])] = (1,fromList [("v1",5)],[5]) |
+|                                                                                           |
+| length (acomp "v1"), fromList [("v1",5)], [aval "v1" fromList [("v1",5)]]                 |
+|    [applying acomp "v1"] = [LOAD "v1"]                                                    |
+|    [applying length ([LOAD "v1"])] = 1                                                    |
+|    [applying [aval "v1" fromList [("v1",5)]]] = [5]                                       |
+|       =(1, fromList [("v1",5)],[5])                                                       |
+---------------------------------------------------------------------------------------------
+------------------------------------------------------------------------
+| Inductive Case a= Plus a b:                                          |
+| exec (acomp (Plus a b)) (0,s,[])                                     |
+|    [applying acomp a b] = [LOADI a, LOADI b, ADD]                    |
+|    [applying exec ([LOADI a, LOADI b, ADD]) (0,s,[])] = (3,s,[a+b])  |
+|    [applying IH] = (3,s,[Plus a b])                                  |
+------------------------------------------------------------------------
